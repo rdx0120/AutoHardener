@@ -52,22 +52,3 @@ Example:
    Configuration,Status,Details
    Apache: ServerTokens,Compliant,Value: Prod
    Ubuntu: PermitRootLogin,Non-Compliant,Expected: no, Found: yes
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

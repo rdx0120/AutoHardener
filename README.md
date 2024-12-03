@@ -48,11 +48,11 @@ The CSV file contains three columns:
 - Details: Additional information, including expected vs. actual values and remediation suggestions.
 
 Example:
-csv
+```csv
 Configuration,Status,Details
 Apache: ServerTokens,Compliant,Value: Prod
 Ubuntu: PermitRootLogin,Non-Compliant,Expected: no, Found: yes
-
+```
 ---
 
 ## Configurations Checked 

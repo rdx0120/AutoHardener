@@ -48,7 +48,40 @@ The CSV file contains three columns:
 - Details: Additional information, including expected vs. actual values and remediation suggestions.
 
 Example:
-```csv
-   Configuration,Status,Details
-   Apache: ServerTokens,Compliant,Value: Prod
-   Ubuntu: PermitRootLogin,Non-Compliant,Expected: no, Found: yes
+csv
+Configuration,Status,Details
+Apache: ServerTokens,Compliant,Value: Prod
+Ubuntu: PermitRootLogin,Non-Compliant,Expected: no, Found: yes
+
+---
+
+## Configurations Checked 
+### Apache Configurations
+- ServerTokens: Prevents Disclosing server version information.
+- ServerSignature: Disables signature in error pages.
+- TraceEnable: Disables HTTP TRACE requests.
+- Options: Prevents directory listing.
+- SSLProtocol: Disables outdated SSL protocols (SSLv2, SSLv3).
+- SSLCipherSuite: Enforces strong SSL/TLS cipher suites.
+
+### Ubuntu SSH Configurations
+- PermitRootLogin: Prevents root login over SSH.
+- PasswordAuthentication: Ensures password-based login is allowed.
+- MaxAuthTries: Limits the number of authentication attempts.
+- IgnoreRhosts: Disables the use of `.rhosts` files.
+- Protocol: Ensures SSH uses protocol version 2.
+- LogLevel: Sets logging level for SSHD to `INFO`.
+
+---
+
+## Customization
+To customize the configuration being checked:
+   1. Edit the `APACHE_RULES` or `UBUNTU_RULES` dictionaries in the script.
+   2. Add or modify key value pairs based on your security policies or CIS Benchmarks.
+
+---
+
+## Limitations
+- Assumes default file paths for Apache and SSH configurations.
+- Does not automatically remediate non-compliant configurations.
+- Requires manual updates to rules for different versions of CIS Benchmarks.

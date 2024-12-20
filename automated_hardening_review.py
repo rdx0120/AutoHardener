@@ -37,7 +37,6 @@ def check_running_services():
     return services
 
 def check_apache_compliance():
-    """Check Apache configurations against CIS Benchmarks."""
     results = []
     found_keys = set() 
 
@@ -56,10 +55,13 @@ def check_apache_compliance():
                         if match:
                             actual_value = match.group(1).strip()
 
-                            if actual_value.lower() == expected_value.lower():
+                            if key == "Options" and "-Indexes" in actual_value:
+                                results.append([f"Apache: {key}", "Compliant", f"Value: {actual_value}"])
+                            elif actual_value.lower() == expected_value.lower():
                                 results.append([f"Apache: {key}", "Compliant", f"Value: {actual_value}"])
                             else:
                                 results.append([f"Apache: {key}", "Non-Compliant", f"Expected: {expected_value}, Found: {actual_value}"])
+                            
                             found = True
                             found_keys.add(key)
                             break

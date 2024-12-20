@@ -2,6 +2,7 @@ import os
 import subprocess
 import csv
 import psutil
+import re
 
 APACHE_CONF_PATH = [
     "/etc/apache2/apache2.conf", "/etc/apache2/mods-enabled/ssl.conf", "/etc/apache2/sites-enabled/default-ssl.conf"]
@@ -36,7 +37,9 @@ def check_running_services():
     return services
 
 def check_apache_compliance():
+    """Check Apache configurations against CIS Benchmarks."""
     results = []
+    found_keys = set() 
 
     for conf_path in APACHE_CONF_PATH:
         if os.path.exists(conf_path):
@@ -44,19 +47,26 @@ def check_apache_compliance():
                 config_lines = conf_file.readlines()
 
                 for key, expected_value in APACHE_RULES.items():
+                    if key in found_keys: 
+                        continue
+
                     found = False
                     for line in config_lines:
-                        if key.lower() in line.lower():
-                            actual_value = line.split()[1] if len(line.split()) > 1 else None
+                        match = re.search(rf"{key}\s+(.+)", line, re.IGNORECASE)
+                        if match:
+                            actual_value = match.group(1).strip()
+
                             if actual_value.lower() == expected_value.lower():
                                 results.append([f"Apache: {key}", "Compliant", f"Value: {actual_value}"])
                             else:
                                 results.append([f"Apache: {key}", "Non-Compliant", f"Expected: {expected_value}, Found: {actual_value}"])
                             found = True
+                            found_keys.add(key)
                             break
 
-                    if not found:
+                    if not found and key not in found_keys:
                         results.append([f"Apache: {key}", "Non-Compliant", "Key not found in configuration files"])
+
         else:
             results.append([f"Apache Config {conf_path}", "Non-Compliant", "Configuration file not found"])
 

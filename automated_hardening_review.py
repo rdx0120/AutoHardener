@@ -4,7 +4,7 @@ import csv
 import psutil
 
 # Define file paths for configuration files
-APACHE_CONF_PATH = "/etc/apache2/apache2.conf"
+APACHE_CONF_PATH = ["/etc/apache2/apache2.conf, "/etc/apache2/mods-enabled/ssl.conf", "/etc/apache2/sites-enabled/default-ssl.conf "]
 UBUNTU_SSHD_CONF_PATH = "/etc/ssh/sshd_config"
 RESULTS_FILE = "compliance_results.csv"
 
